@@ -1,1 +1,2 @@
 CREATE SCHEMA `movies4us` DEFAULT CHARACTER SET utf8 ;
+USE `movies4us`;
