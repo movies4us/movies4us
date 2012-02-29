@@ -1,6 +1,6 @@
-/web/WEB-INF/
 /lib/
 /nbproject/
-/build.xml
-/src/conf/
 /movielens data/
+/build/
+!/src/conf/MANIFEST.MF
+!/src/conf/persistence.xml

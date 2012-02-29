@@ -23,3 +23,6 @@ ALTER TABLE `movies4us`.`TAGS`
 , ADD INDEX `fk_TAGS_2` (`MOVIE_ID` ASC) 
 , DROP INDEX `tags_mid_fk` 
 , DROP INDEX `tags_uid_fk` ;
+
+ALTER TABLE `movies4us`.`TAGS` CHANGE COLUMN `TAG` `TAG` VARCHAR(45) NULL COMMENT 'user generated tag information for the movies'  
+, ADD PRIMARY KEY (`USER_ID`, `MOVIE_ID`) ;

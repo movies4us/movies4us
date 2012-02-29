@@ -23,3 +23,6 @@ ALTER TABLE `movies4us`.`RATINGS`
 , ADD INDEX `fk_RATINGS_2` (`MOVIE_ID` ASC) 
 , DROP INDEX `rating_mid_fk` 
 , DROP INDEX `rating_uid_fk` ;
+
+ALTER TABLE `movies4us`.`RATINGS` CHANGE COLUMN `RATINGS` `RATINGS` INT(11) NULL COMMENT 'user ratings for movies'  
+, ADD PRIMARY KEY (`USER_ID`, `MOVIE_ID`) ;

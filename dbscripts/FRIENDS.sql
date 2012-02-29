@@ -5,3 +5,6 @@ CREATE  TABLE `movies4us`.`FRIENDS` (
   INDEX `fk_FRIENDS_1` (`USER_ID` ASC) ,
   INDEX `fk_FRIENDS_2` (`FRIEND_USER_ID` ASC) )
 COMMENT = 'Stores the friend ids for a user';
+
+ALTER TABLE `movies4us`.`FRIENDS` 
+ADD PRIMARY KEY (`USER_ID`, `FRIEND_USER_ID`) ;
