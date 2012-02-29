@@ -4,3 +4,4 @@
 /build/
 !/src/conf/MANIFEST.MF
 !/src/conf/persistence.xml
+/movielens/

@@ -12,17 +12,12 @@ import java.util.Queue;
  *
  * @author arka
  */
-public class TagsParser extends GenericParser{
+public class TagsParser implements Parser{
 
-    public TagsParser(Queue<String> movieLensData, Connection dbConn) {
-        super(movieLensData, dbConn);
-    }
-
-    
-    
     @Override
     public void parse(Reader input) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
     
 }
