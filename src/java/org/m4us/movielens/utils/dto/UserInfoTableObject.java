@@ -4,7 +4,7 @@
  */
 package org.m4us.movielens.utils.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -15,16 +15,18 @@ public class UserInfoTableObject implements TableObject{
     private Integer userId;
     private String username;
     private String password;
-    private Date joinDate;
+    private Timestamp joinDate;
 
-    public Date getJoinDate() {
+    public Timestamp getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(Date joinDate) {
+    public void setJoinDate(Timestamp joinDate) {
         this.joinDate = joinDate;
     }
-
+    
+    
+    
     public String getPassword() {
         return password;
     }

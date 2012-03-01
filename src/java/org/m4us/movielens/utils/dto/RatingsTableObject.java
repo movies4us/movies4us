@@ -4,7 +4,7 @@
  */
 package org.m4us.movielens.utils.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -15,7 +15,7 @@ public class RatingsTableObject implements TableObject{
     private int userId;
     private int movieId;
     private Integer ratings;
-    private Date ratingDate;
+    private Timestamp ratingDate;
 
     public int getMovieId() {
         return movieId;
@@ -25,11 +25,11 @@ public class RatingsTableObject implements TableObject{
         this.movieId = movieId;
     }
 
-    public Date getRatingDate() {
+    public Timestamp getRatingDate() {
         return ratingDate;
     }
 
-    public void setRatingDate(Date ratingDate) {
+    public void setRatingDate(Timestamp ratingDate) {
         this.ratingDate = ratingDate;
     }
 

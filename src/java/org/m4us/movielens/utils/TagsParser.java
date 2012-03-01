@@ -15,7 +15,7 @@ import java.util.Queue;
 public class TagsParser implements Parser{
 
     @Override
-    public void parse(Reader input) {
+    public void parse(Reader input, ConnectionInfo connInfo) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

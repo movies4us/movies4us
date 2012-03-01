@@ -11,5 +11,5 @@ import java.io.Reader;
  * @author arka
  */
 public interface Parser{
-    public void parse(Reader input);
+    public void parse(Reader input, ConnectionInfo connInfo);
 }

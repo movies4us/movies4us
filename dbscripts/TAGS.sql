@@ -26,3 +26,7 @@ ALTER TABLE `movies4us`.`TAGS`
 
 ALTER TABLE `movies4us`.`TAGS` CHANGE COLUMN `TAG` `TAG` VARCHAR(45) NULL COMMENT 'user generated tag information for the movies'  
 , ADD PRIMARY KEY (`USER_ID`, `MOVIE_ID`) ;
+
+ALTER TABLE `movies4us`.`TAGS` CHANGE COLUMN `TAG_DATE` `TAG_DATE` TIMESTAMP NULL DEFAULT NULL COMMENT 'date of generated tag'  ;
+
+ALTER TABLE `movies4us`.`TAGS` CHANGE COLUMN `TAG` `TAG` VARCHAR(200) NULL DEFAULT NULL COMMENT 'user generated tag information for the movies'  ;

@@ -6,3 +6,5 @@ CREATE  TABLE `movies4us`.`USER_INFO` (
   PRIMARY KEY (`USER_ID`) ,
   UNIQUE INDEX `USERNAME_UNIQUE` (`USERNAME` ASC) )
 COMMENT = 'Stores the information of all users registered in the system';
+
+ALTER TABLE `movies4us`.`USER_INFO` CHANGE COLUMN `JOIN_DATE` `JOIN_DATE` TIMESTAMP NULL DEFAULT NULL COMMENT 'date time when the user registers'  ;

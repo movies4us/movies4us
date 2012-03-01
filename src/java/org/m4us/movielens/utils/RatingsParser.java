@@ -16,7 +16,7 @@ public class RatingsParser implements Parser{
 
     
     @Override
-    public void parse(Reader input) {
+    public void parse(Reader input, ConnectionInfo connInfo) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

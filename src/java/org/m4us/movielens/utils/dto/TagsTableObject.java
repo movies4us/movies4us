@@ -4,7 +4,7 @@
  */
 package org.m4us.movielens.utils.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -15,7 +15,7 @@ public class TagsTableObject implements TableObject{
     private int userId;
     private int movieId;
     private String tag;
-    private Date tagDate;
+    private Timestamp tagDate;
 
     public int getMovieId() {
         return movieId;
@@ -33,11 +33,11 @@ public class TagsTableObject implements TableObject{
         this.tag = tag;
     }
 
-    public Date getTagDate() {
+    public Timestamp getTagDate() {
         return tagDate;
     }
 
-    public void setTagDate(Date tagDate) {
+    public void setTagDate(Timestamp tagDate) {
         this.tagDate = tagDate;
     }
 
