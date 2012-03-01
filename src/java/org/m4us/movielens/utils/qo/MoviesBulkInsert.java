@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import org.m4us.movielens.utils.dto.DataTransferObject;
 import org.m4us.movielens.utils.dto.MovieGenreCompositeObject;
 import org.m4us.movielens.utils.dto.MoviesGenreTableObject;
-import org.m4us.movielens.utils.dto.MoviesTableObject;
 
 /**
  *

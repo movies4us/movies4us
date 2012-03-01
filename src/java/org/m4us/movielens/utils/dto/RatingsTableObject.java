@@ -14,7 +14,7 @@ public class RatingsTableObject implements TableObject{
  
     private int userId;
     private int movieId;
-    private Integer ratings;
+    private float rating;
     private Timestamp ratingDate;
 
     public int getMovieId() {
@@ -33,12 +33,12 @@ public class RatingsTableObject implements TableObject{
         this.ratingDate = ratingDate;
     }
 
-    public Integer getRatings() {
-        return ratings;
+    public float getRating() {
+        return rating;
     }
 
-    public void setRatings(Integer ratings) {
-        this.ratings = ratings;
+    public void setRating(float ratings) {
+        this.rating = ratings;
     }
 
     public int getUserId() {
@@ -51,7 +51,7 @@ public class RatingsTableObject implements TableObject{
 
     @Override
     public String toString() {
-        return "RatingsTableObject{" + "userId=" + userId + ", movieId=" + movieId + ", ratings=" + ratings + ", ratingDate=" + ratingDate + '}';
+        return "RatingsTableObject{" + "userId=" + userId + ", movieId=" + movieId + ", ratings=" + rating + ", ratingDate=" + ratingDate + '}';
     }
     
     

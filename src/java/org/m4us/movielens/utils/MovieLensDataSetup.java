@@ -41,7 +41,7 @@ public class MovieLensDataSetup {
     public static void main(String[] args) {
         System.out.println("current dir: " + (new File(".")).getAbsolutePath());
 //        createUsers();
-        processMoviesFile();
+//        processMoviesFile();
 //        processTagsFile();
 //        processRatingsFile();
     }
@@ -72,11 +72,23 @@ public class MovieLensDataSetup {
     }
 
     private static void processTagsFile() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        try {
+            ParserFactory.getInstance(ParserFactory.MOVIELENS_TAGS_FILE)
+                    .parse((new BufferedReader(new FileReader
+                    (ParserFactory.MOVIELENS_TAGS_FILE))), connInfo);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MovieLensDataSetup.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private static void processRatingsFile() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        try {
+            ParserFactory.getInstance(ParserFactory.MOVIELENS_RATINGS_FILE)
+                    .parse((new BufferedReader(new FileReader
+                    (ParserFactory.MOVIELENS_RATINGS_FILE))), connInfo);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MovieLensDataSetup.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     
