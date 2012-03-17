@@ -15,3 +15,10 @@ ALTER TABLE `movies4us`.`MOVIES_PERSONS`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION
 , ADD INDEX `fk_MOVIES_PERSONS_1` (`movie_id` ASC) ;
+
+
+ALTER TABLE `movies4us`.`MOVIES_PERSONS` DROP COLUMN `release_year` 
+, DROP PRIMARY KEY 
+, ADD PRIMARY KEY (`movie_id`) 
+, DROP INDEX `mov_person` 
+, ADD INDEX `mov_person` (`movie_id` ASC, `person_name` ASC) ;

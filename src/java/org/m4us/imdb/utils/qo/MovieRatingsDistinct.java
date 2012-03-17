@@ -21,15 +21,16 @@ public class MovieRatingsDistinct {
 
     public Map<String,Integer> retrieveList(Connection conn) {
         Map<String,Integer> distinctMoviesMap = new HashMap<String, Integer>();
-        StringBuilder queryString = new StringBuilder("SELECT distinct MOVIE_NAME FROM movies4us.RATINGS a, "
-                                                       + "movies4us.MOVIES b where a.MOVIE_ID = b.MOVIE_ID");
+        StringBuilder queryString = new StringBuilder("SELECT distinct b.MOVIE_ID,MOVIE_NAME,RELEASE_YEAR "
+                                                       + "FROM movies4us.RATINGS a, movies4us.MOVIES b "
+                                                        + "where a.MOVIE_ID = b.MOVIE_ID");
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
             st=conn.prepareStatement(queryString.toString());
             rs = st.executeQuery();
             while(rs.next()){
-                distinctMoviesMap.put(rs.getString(1), 1);
+                distinctMoviesMap.put(rs.getString(2)+"|"+rs.getString(3), rs.getInt(1));
             }
         } catch (SQLException ex) {
             Logger.getLogger(MovieRatingsDistinct.class.getName()).log(Level.SEVERE, null, ex);
