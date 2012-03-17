@@ -4,6 +4,7 @@
  */
 package org.m4us.movielens.utils.qo;
 
+import java.sql.Connection;
 import java.util.List;
 import org.m4us.movielens.utils.dto.DataTransferObject;
 
@@ -12,5 +13,5 @@ import org.m4us.movielens.utils.dto.DataTransferObject;
  * @author arka
  */
 public interface ListQueryObject extends QueryObjects{
-    public List<DataTransferObject> retrieveList(DataTransferObject object);
+    public List<DataTransferObject> retrieveList(DataTransferObject object,Connection conn);
 }

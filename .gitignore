@@ -6,3 +6,4 @@
 !/src/conf/persistence.xml
 /movielens/
 /dataSetup/
+/dist/
