@@ -22,3 +22,7 @@ ALTER TABLE `movies4us`.`MOVIES_PERSONS` DROP COLUMN `release_year`
 , ADD PRIMARY KEY (`movie_id`) 
 , DROP INDEX `mov_person` 
 , ADD INDEX `mov_person` (`movie_id` ASC, `person_name` ASC) ;
+
+ALTER TABLE `movies4us`.`MOVIES_PERSONS` CHANGE COLUMN `person_name` `person_name` VARCHAR(45) NOT NULL DEFAULT 'unknown'  
+, DROP PRIMARY KEY 
+, ADD PRIMARY KEY (`movie_id`, `person_name`) ;

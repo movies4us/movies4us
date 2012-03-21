@@ -37,11 +37,17 @@ public class MoviesPersonsBulkInsert implements BulkInsertObject{
         for(DataTransferObject obj:objectList){
             
             object = (MoviesPersonsTableObject)obj;
+            if(object.getPersonName().length()>45)
+                continue;
             personsStmt.setInt(paramNo++, object.getMovieId());
             personsStmt.setString(paramNo++, object.getPersonName());
             personsStmt.setString(paramNo++, object.getPersonRole());
-            
+            //try{
             personsStmt.executeUpdate();
+            /*}catch(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e){
+                System.out.println("object details"+object.toString());
+                continue;
+            }*/
             paramNo=1;
             count++;
             if(count>=100){

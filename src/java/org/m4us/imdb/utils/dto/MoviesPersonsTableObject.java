@@ -39,4 +39,11 @@ public class MoviesPersonsTableObject implements TableObject{
         this.personRole = personRole;
     }
 
+    @Override
+    public String toString() {
+        return "MoviesPersonsTableObject{" + "movieId=" + movieId + ", personName=" + personName + ", personRole=" + personRole + '}';
+    }
+    
+    
+
 }

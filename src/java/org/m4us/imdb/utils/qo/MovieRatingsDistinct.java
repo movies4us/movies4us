@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.m4us.imdb.utils.IMDBUtils;
 
 /**
  *
@@ -30,7 +31,8 @@ public class MovieRatingsDistinct {
             st=conn.prepareStatement(queryString.toString());
             rs = st.executeQuery();
             while(rs.next()){
-                distinctMoviesMap.put(rs.getString(2)+"|"+rs.getString(3), rs.getInt(1));
+                String movieNameWithoutAlias = IMDBUtils.stripAliasInfo(rs.getString(2));
+                distinctMoviesMap.put(movieNameWithoutAlias+"|"+rs.getString(3), rs.getInt(1));
             }
         } catch (SQLException ex) {
             Logger.getLogger(MovieRatingsDistinct.class.getName()).log(Level.SEVERE, null, ex);

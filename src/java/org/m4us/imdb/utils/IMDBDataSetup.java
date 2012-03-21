@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.m4us.imdb.utils.dto.MoviesPersonsTableObject;
@@ -39,11 +40,14 @@ public class IMDBDataSetup {
 
     private static void processActorsFile(Map<String, Integer> distinctMoviesMap) {
         BufferedReader in = null;
-        int lineCount = 0;
+        long lineCount = 0;
         String line = "";
         String currentActor = "";
         String currentMovie = "";
         String currentMovieRelYr = "";
+        
+        Map<String,Boolean> personMovieCombination = new HashMap<String, Boolean>();
+
         List<DataTransferObject> personsList = new ArrayList<DataTransferObject>();
         ExecutorService exec = Executors.newFixedThreadPool(5);
         try {
@@ -53,15 +57,30 @@ public class IMDBDataSetup {
           }
           
           while((line = in.readLine())!=null){
+              lineCount++;
+              if(lineCount>=12269596)
+                  break;
               if(line.trim().equals(""))
                   continue;
               if (line.charAt(0) != ' ' && line.charAt(0) != '\t' ){
+                  personMovieCombination.clear();
                   String words[] = line.split("\t");
                   currentActor = words[0].trim();
                   line = words[words.length-1].trim();
               }
-              currentMovie=line.substring(0, line.indexOf('(')).trim();
-              currentMovieRelYr=line.substring(line.indexOf('(')+1, line.indexOf(')')).trim();
+              try{
+                  currentMovie=line.substring(0, line.indexOf('(')).trim();
+              }catch(Exception e){
+                  System.out.println("at line number ::"+lineCount+" ::value of current line------"+line);
+                  System.out.println("exception is----"+e.getMessage());
+                  continue;
+              }
+              if(personMovieCombination.containsKey(currentActor+currentMovie))
+                  continue;
+              else
+                  personMovieCombination.put(currentActor+currentMovie,true);
+              int relYrStart = line.indexOf('(')+1;
+              currentMovieRelYr=line.substring(relYrStart, relYrStart+4).trim();
               if(distinctMoviesMap.containsKey(currentMovie+"|"+currentMovieRelYr)){
                   MoviesPersonsTableObject personsObject = new MoviesPersonsTableObject();
                   personsObject.setMovieId(distinctMoviesMap.get(currentMovie+"|"+currentMovieRelYr));
@@ -79,6 +98,9 @@ public class IMDBDataSetup {
           exec.shutdown();
         } catch (IOException ex) {
             Logger.getLogger(IMDBDataSetup.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (Exception ex) {
+            System.out.println("at line number ::"+lineCount+" ::value of current line------"+line);
+            System.out.println("exception is----"+ex.getMessage());
         }finally{
             try {
                 in.close();
@@ -89,6 +111,11 @@ public class IMDBDataSetup {
     }
 
     private static void processActressFile(Map<String, Integer> distinctMoviesMap) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        try {
+            TimeUnit.MINUTES.sleep(3);
+            throw new UnsupportedOperationException("Not yet implemented");
+        } catch (InterruptedException ex) {
+            Logger.getLogger(IMDBDataSetup.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
