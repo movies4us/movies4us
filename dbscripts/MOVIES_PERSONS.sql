@@ -26,3 +26,7 @@ ALTER TABLE `movies4us`.`MOVIES_PERSONS` DROP COLUMN `release_year`
 ALTER TABLE `movies4us`.`MOVIES_PERSONS` CHANGE COLUMN `person_name` `person_name` VARCHAR(45) NOT NULL DEFAULT 'unknown'  
 , DROP PRIMARY KEY 
 , ADD PRIMARY KEY (`movie_id`, `person_name`) ;
+
+ALTER TABLE `movies4us`.`MOVIES_PERSONS` CHANGE COLUMN `person_role` `person_role` VARCHAR(2) NOT NULL DEFAULT 'na'  
+, DROP PRIMARY KEY 
+, ADD PRIMARY KEY (`movie_id`, `person_name`, `person_role`) ;

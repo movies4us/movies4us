@@ -42,12 +42,13 @@ public class MoviesPersonsBulkInsert implements BulkInsertObject{
             personsStmt.setInt(paramNo++, object.getMovieId());
             personsStmt.setString(paramNo++, object.getPersonName());
             personsStmt.setString(paramNo++, object.getPersonRole());
-            //try{
+            try{
             personsStmt.executeUpdate();
-            /*}catch(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e){
+            }catch(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e){
                 System.out.println("object details"+object.toString());
+                paramNo=1;
                 continue;
-            }*/
+            }
             paramNo=1;
             count++;
             if(count>=100){
