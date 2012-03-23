@@ -5,3 +5,5 @@
 !/src/conf/MANIFEST.MF
 !/src/conf/persistence.xml
 /movielens/
+/dataSetup/
+/dist/
