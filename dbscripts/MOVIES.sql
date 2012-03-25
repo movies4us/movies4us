@@ -7,3 +7,5 @@ CREATE  TABLE `movies4us`.`MOVIES` (
 COMMENT = 'Stores the movie information.';
 
 ALTER TABLE `movies4us`.`MOVIES` CHANGE COLUMN `MOVIE_NAME` `MOVIE_NAME` VARCHAR(200) NOT NULL COMMENT 'name of the movie. movie name can be same but combination of movie name and year of release is unique'  ;
+
+ALTER TABLE `movies4us`.`MOVIES` ADD LANGUAGE VARCHAR(20);

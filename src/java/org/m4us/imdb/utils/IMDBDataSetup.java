@@ -32,12 +32,88 @@ public class IMDBDataSetup {
         distinctMoviesMap = getDistinctRatedMovies();
         //processActorsFile(distinctMoviesMap);
         //processActressFile(distinctMoviesMap);
-        processDirectorsFile(distinctMoviesMap);
+        //processDirectorsFile(distinctMoviesMap);
+        processLanguageFile(distinctMoviesMap);
+        
         try {
-            TimeUnit.MINUTES.sleep(2);
+            TimeUnit.MINUTES.sleep(4);
         } catch (InterruptedException ex) {
             Logger.getLogger(IMDBDataSetup.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private static void processLanguageFile(Map<String, Integer> distinctMoviesMap) {
+        BufferedReader in = null;
+        long lineCount = 0;
+        String line = "";
+        String currentActor = "";
+        String currentMovie = "";
+        String currentMovieRelYr = "";
+        System.out.println("size of distinct set"+distinctMoviesMap.size());
+        Map<String,Boolean> personMovieCombination = new HashMap<String, Boolean>();
+
+        List<DataTransferObject> personsList = new ArrayList<DataTransferObject>();
+        ExecutorService exec = Executors.newFixedThreadPool(5);
+        try {
+          in   = new BufferedReader(new FileReader("./dataSetup/language.list"));
+          while(lineCount<14){
+              in.readLine();lineCount++;
+          }
+          
+          while((line = in.readLine())!=null){
+              lineCount++;
+              if(lineCount>=4000)//1100744)
+                  break;
+              if(line.trim().equals(""))
+                  continue;
+              if (line.charAt(0) != ' ' && line.charAt(0) != '\t' ){
+                  personMovieCombination.clear();
+                  String words[] = line.split("\t");
+                  currentActor = words[0].trim();                
+                  line = words[words.length-1].trim();
+              }
+              try{
+                  currentMovie=currentActor.substring(0, currentActor.indexOf('(')).trim();
+System.out.println("Movie "+currentMovie);               
+System.out.println("Language "+line);                 
+              }catch(Exception e){
+                  System.out.println("at line number ::"+lineCount+" ::value of current line------"+line);
+                  System.out.println("exception is----"+e.getMessage());
+                  continue;
+              }
+/*            if(personMovieCombination.containsKey(currentActor+currentMovie))
+                  continue;
+              else
+                  personMovieCombination.put(currentActor+currentMovie,true);
+              int relYrStart = line.indexOf('(')+1;
+              currentMovieRelYr=line.substring(relYrStart, relYrStart+4).trim();
+              if(distinctMoviesMap.containsKey(currentMovie+"|"+currentMovieRelYr)){
+                  MoviesPersonsTableObject personsObject = new MoviesPersonsTableObject();
+                  personsObject.setMovieId(distinctMoviesMap.get(currentMovie+"|"+currentMovieRelYr));
+                  personsObject.setPersonName(currentActor);
+                  personsObject.setPersonRole("LN");
+                  personsList.add(personsObject);
+              }
+              if(personsList.size()>=1000){
+                    exec.execute(new PersonsProcessor(new ArrayList<DataTransferObject>(personsList), null));
+                    personsList.clear();
+                }
+*/                  
+          }
+          //exec.execute(new PersonsProcessor(new ArrayList<DataTransferObject>(personsList), null));
+          exec.shutdown();
+        } catch (IOException ex) {
+            Logger.getLogger(IMDBDataSetup.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (Exception ex) {
+            System.out.println("at line number ::"+lineCount+" ::value of current line------"+line);
+            System.out.println("exception is----"+ex.getMessage());
+        }finally{
+            try {
+                in.close();
+            } catch (IOException ex) {
+                Logger.getLogger(IMDBDataSetup.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
     }
 
     private static Map<String, Integer> getDistinctRatedMovies() {
@@ -51,7 +127,7 @@ public class IMDBDataSetup {
         String currentActor = "";
         String currentMovie = "";
         String currentMovieRelYr = "";
-        
+        System.out.println("size of distinct set"+distinctMoviesMap.size());
         Map<String,Boolean> personMovieCombination = new HashMap<String, Boolean>();
 
         List<DataTransferObject> personsList = new ArrayList<DataTransferObject>();

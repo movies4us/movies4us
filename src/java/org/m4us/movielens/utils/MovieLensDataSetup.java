@@ -40,10 +40,10 @@ public class MovieLensDataSetup {
     
     public static void main(String[] args) {
         System.out.println("current dir: " + (new File(".")).getAbsolutePath());
-//        createUsers();
-//        processMoviesFile();
-//        processTagsFile();
-//        processRatingsFile();
+        //createUsers();
+        //processMoviesFile();
+        //processTagsFile();
+        processRatingsFile();
     }
 
     private static void createUsers() {
