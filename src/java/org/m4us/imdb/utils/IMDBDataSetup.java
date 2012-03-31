@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -16,8 +17,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Vector;
 import org.m4us.imdb.utils.dto.MoviesPersonsTableObject;
 import org.m4us.imdb.utils.qo.MovieRatingsDistinct;
+import org.m4us.imdb.utils.qo.MovieLanguageInsert;
+import org.m4us.imdb.utils.qo.MovieRankInsert;
 import org.m4us.movielens.utils.ConnectionManager;
 import org.m4us.movielens.utils.dto.DataTransferObject;
 
@@ -26,14 +30,15 @@ import org.m4us.movielens.utils.dto.DataTransferObject;
  * @author arka
  */
 public class IMDBDataSetup {
-    public static void main(String[] args) {
-        
-        Map<String,Integer> distinctMoviesMap = new HashMap<String, Integer>();
-        distinctMoviesMap = getDistinctRatedMovies();
+    public static void main(String[] args) {     
+        //Map<String,Integer> distinctMoviesMap = new HashMap<String, Integer>();
+        //distinctMoviesMap = getDistinctRatedMovies();
         //processActorsFile(distinctMoviesMap);
         //processActressFile(distinctMoviesMap);
-        //processDirectorsFile(distinctMoviesMap);
-        processLanguageFile(distinctMoviesMap);
+        //processDirectorsFile(distinctMoviesMap);     
+        //processRatingsFile();  
+        
+        new MovieLanguageInsert(null);
         
         try {
             TimeUnit.MINUTES.sleep(4);
@@ -42,66 +47,45 @@ public class IMDBDataSetup {
         }
     }
     
-    private static void processLanguageFile(Map<String, Integer> distinctMoviesMap) {
+    private static void processRatingsFile()
+    {
         BufferedReader in = null;
         long lineCount = 0;
         String line = "";
-        String currentActor = "";
         String currentMovie = "";
-        String currentMovieRelYr = "";
-        System.out.println("size of distinct set"+distinctMoviesMap.size());
-        Map<String,Boolean> personMovieCombination = new HashMap<String, Boolean>();
+        String currentYear = "";
+        int currentRank=1;
+        
+        try 
+        {
+            in   = new BufferedReader(new FileReader("./dataSetup/ratings.list"));
+            while(lineCount<29)
+            {
+                in.readLine();
+                lineCount++;
+            }
 
-        List<DataTransferObject> personsList = new ArrayList<DataTransferObject>();
-        ExecutorService exec = Executors.newFixedThreadPool(5);
-        try {
-          in   = new BufferedReader(new FileReader("./dataSetup/language.list"));
-          while(lineCount<14){
-              in.readLine();lineCount++;
-          }
-          
-          while((line = in.readLine())!=null){
-              lineCount++;
-              if(lineCount>=4000)//1100744)
-                  break;
-              if(line.trim().equals(""))
-                  continue;
-              if (line.charAt(0) != ' ' && line.charAt(0) != '\t' ){
-                  personMovieCombination.clear();
-                  String words[] = line.split("\t");
-                  currentActor = words[0].trim();                
-                  line = words[words.length-1].trim();
-              }
-              try{
-                  currentMovie=currentActor.substring(0, currentActor.indexOf('(')).trim();
-System.out.println("Movie "+currentMovie);               
-System.out.println("Language "+line);                 
-              }catch(Exception e){
-                  System.out.println("at line number ::"+lineCount+" ::value of current line------"+line);
-                  System.out.println("exception is----"+e.getMessage());
-                  continue;
-              }
-/*            if(personMovieCombination.containsKey(currentActor+currentMovie))
-                  continue;
-              else
-                  personMovieCombination.put(currentActor+currentMovie,true);
-              int relYrStart = line.indexOf('(')+1;
-              currentMovieRelYr=line.substring(relYrStart, relYrStart+4).trim();
-              if(distinctMoviesMap.containsKey(currentMovie+"|"+currentMovieRelYr)){
-                  MoviesPersonsTableObject personsObject = new MoviesPersonsTableObject();
-                  personsObject.setMovieId(distinctMoviesMap.get(currentMovie+"|"+currentMovieRelYr));
-                  personsObject.setPersonName(currentActor);
-                  personsObject.setPersonRole("LN");
-                  personsList.add(personsObject);
-              }
-              if(personsList.size()>=1000){
-                    exec.execute(new PersonsProcessor(new ArrayList<DataTransferObject>(personsList), null));
-                    personsList.clear();
-                }
-*/                  
-          }
-          //exec.execute(new PersonsProcessor(new ArrayList<DataTransferObject>(personsList), null));
-          exec.shutdown();
+            while((line = in.readLine())!=null)
+            {
+                lineCount++;
+                if(lineCount>=279)
+                    break;
+                if(line.trim().equals(""))
+                    continue;
+
+                StringTokenizer st=new StringTokenizer(line);
+                for(int i=0;i<3;i++)
+                    st.nextToken(" ");
+                currentMovie=st.nextToken(" ");
+                
+                currentMovie=line.substring(line.indexOf(" "+currentMovie+" "),line.lastIndexOf("("));
+                currentYear=line.substring(line.lastIndexOf("(")+1, line.lastIndexOf(")"));
+                
+                new MovieRankInsert(currentMovie,currentYear,currentRank);
+                
+                currentRank++;
+                
+            }          
         } catch (IOException ex) {
             Logger.getLogger(IMDBDataSetup.class.getName()).log(Level.SEVERE, null, ex);
         }catch (Exception ex) {
@@ -114,10 +98,7 @@ System.out.println("Language "+line);
                 Logger.getLogger(IMDBDataSetup.class.getName()).log(Level.SEVERE, null, ex);
             }
         } 
-    }
-
-    private static Map<String, Integer> getDistinctRatedMovies() {
-        return new MovieRatingsDistinct().retrieveList(ConnectionManager.getConnection());
+        
     }
 
     private static void processActorsFile(Map<String, Integer> distinctMoviesMap) {
