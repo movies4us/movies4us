@@ -20,7 +20,7 @@ public class GroupProfile
     
     public GroupProfile(ArrayList user)
     {        
-        userList=user;
+        userList=user;                      
         groupProfile=new double[GENRE_COUNT];
         userProfiles=new double[userList.size()][GENRE_COUNT];
         getUserProfiles();
@@ -81,5 +81,5 @@ public class GroupProfile
                 groupProfile[j]+=userProfiles[i][j];
         
         return groupProfile;
-    }
+    }    
 }
