@@ -6,11 +6,14 @@ package org.m4us.movielens.utils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.m4us.movielens.utils.dto.DataTransferObject;
+import org.m4us.movielens.utils.dto.GroupsTableObject;
 import org.m4us.movielens.utils.dto.MoviesTableObject;
 import org.m4us.movielens.utils.qo.MoviesTableListQueryObject;
 
@@ -34,7 +37,7 @@ public class MoviesAndGroupsPorting {
     }
     
     public static void main(String[] args) {
-        //moviesPort();
+        moviesPort();
         groupsPort();
     }
 
@@ -72,6 +75,21 @@ public class MoviesAndGroupsPorting {
     }
 
     private static void groupsPort() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        Connection m4usConn = ConnectionManager.getConnection(dbUrl, dbDriver, dbUser, dbPwd);
+        String groupQuery = "INSERT INTO GROUPS VALUES (? ,?)";
+        List<DataTransferObject> groupsObject = new ArrayList<DataTransferObject>();
+        try {
+            m4usConn.setAutoCommit(false);
+            PreparedStatement ps = m4usConn.prepareStatement(groupQuery);
+            for(int i=1;i<=100;i++){
+                ps.setInt(1, i);
+                ps.setString(2, "GROUP"+i);
+                ps.executeUpdate();
+            }
+            m4usConn.commit();
+            m4usConn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(MoviesAndGroupsPorting.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

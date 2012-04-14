@@ -8,18 +8,19 @@ package org.m4us.movielens.utils.dto;
  *
  * @author arka
  */
-public class FriendsTableObject implements TableObject{
+public class GroupsTableObject implements TableObject{
+    private int groupId;
     private int userId;
-    private int friendUserId;
 
-    public int getFriendUserId() {
-        return friendUserId;
+    public int getGroupId() {
+        return groupId;
     }
 
-    public void setFriendUserId(int friendUserId) {
-        this.friendUserId = friendUserId;
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 
+    
     public int getUserId() {
         return userId;
     }
@@ -30,7 +31,8 @@ public class FriendsTableObject implements TableObject{
 
     @Override
     public String toString() {
-        return "FriendsTableObject{" + "userId=" + userId + ", friendUserId=" + friendUserId + '}';
+        return "GroupsTableObject{" + "groupId=" + groupId + ", userId=" + userId + '}';
     }
+
     
 }
