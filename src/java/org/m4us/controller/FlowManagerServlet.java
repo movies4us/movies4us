@@ -7,6 +7,9 @@ package org.m4us.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,9 +50,39 @@ public class FlowManagerServlet extends HttpServlet {
 //        } finally {            
 //            out.close();
 //        }
+        if(FlowContext.getServletContext()==null)
+            FlowContext.setServletContext(getServletContext());
         Enumeration<String> requestParams = request.getParameterNames();
-        while(requestParams.hasMoreElements())
-            System.out.println("param:" + requestParams.nextElement());
+        FlowContext flowCtx = new FlowContext();
+        String actionName = "";
+        while(requestParams.hasMoreElements()){
+            String param = requestParams.nextElement();
+            if(param.startsWith("action")){
+                 actionName = param.substring(param.indexOf(".")+1);
+                flowCtx.put("currentAction", actionName);
+            }else{
+                flowCtx.put(param, request.getParameter(param));
+            }
+        }
+        NavigationRule rule = NavigationLoader.getRuleDetails(actionName);
+        Boolean flowSuccess = false;
+        try {
+            flowSuccess = new NavigationController().startFlow(rule, flowCtx);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FlowManagerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(FlowManagerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(FlowManagerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(flowSuccess){
+        request.setAttribute("context", flowCtx);
+        request.getRequestDispatcher(rule.getRuleSuccessJSP()).forward(request, response);
+
+        }else{
+           request.getRequestDispatcher(rule.getRuleErrorJSP()).forward(request, response); 
+        }
         
     }
 
