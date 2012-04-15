@@ -41,7 +41,7 @@ public class RecommendMovies
         System.out.println("Creating group profile......");
         GroupProfile profile=new GroupProfile(users);
         groupProfile=profile.getGroupProfile();         
-        
+      
         System.out.println("Creating champion list....");
         ChampionList cl=new ChampionList(groupID);
         championList=cl.getChampionList();
@@ -67,7 +67,7 @@ public class RecommendMovies
         }
                 
         sortTotalScore();        
-        printTop(RESULT_SIZE);        
+        printTop(RESULT_SIZE);                        
     }
     
     public void printTop(int n)
