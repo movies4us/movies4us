@@ -40,7 +40,7 @@ public class RecommendMovies
                 
         System.out.println("Creating group profile......");
         GroupProfile profile=new GroupProfile(users);
-        groupProfile=profile.getGroupProfile();        
+        groupProfile=profile.getGroupProfile();         
         
         System.out.println("Creating champion list....");
         ChampionList cl=new ChampionList(groupID);
@@ -57,7 +57,7 @@ public class RecommendMovies
         groupLanguageSet=grFeatures.getGroupLanguageSet();
         JaccardScores jScores=new JaccardScores(championList, groupActorSet, groupDirectorSet, groupLanguageSet);
         jaccardScores=jScores.getJaccardScores();        
-        
+                
         System.out.println("Calculating total scores....");
         totalScores=new double[championList.size()];
         movieDetails=new ArrayList();
@@ -67,7 +67,7 @@ public class RecommendMovies
         }
                 
         sortTotalScore();        
-        printTop(RESULT_SIZE);
+        printTop(RESULT_SIZE);        
     }
     
     public void printTop(int n)
@@ -77,6 +77,7 @@ public class RecommendMovies
         for(int i=0;i<n;i++)
         {
             System.out.println(championList.get(i)+"\t"+mn.getMovieName((Integer)championList.get(i))+"\t\t"+totalScores[i]+"\t"+cosineScores[i]+"\t"+jaccardScores[i]);
+            //System.out.println(championList.get(i)+"\t"+mn.getMovieName((Integer)championList.get(i))+jaccardScores[i]);
         }
     }        
         
@@ -87,6 +88,7 @@ public class RecommendMovies
         for(int i=0;i<championList.size();i++)
             for(int j=0;j<championList.size()-i-1;j++)            
                 if(totalScores[j]<totalScores[j+1])
+                //if(jaccardScores[j]<jaccardScores[j+1])
                 {
                     score=totalScores[j];
                     totalScores[j]=totalScores[j+1];

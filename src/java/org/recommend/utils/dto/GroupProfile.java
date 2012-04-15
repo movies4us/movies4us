@@ -62,9 +62,14 @@ public class GroupProfile
     {
         double sum=0;
         String output="Group: ";
+        String val;
         for(int i=0;i<GENRE_COUNT;i++)
         {
-            output+=groupProfile[i]+"\t";
+            val=""+groupProfile[i];
+            if(val.length()>5)
+                output+=val.substring(0,5)+"\t";
+            else
+                output+=groupProfile[i]+"\t";
             sum+=groupProfile[i];
         }
         
