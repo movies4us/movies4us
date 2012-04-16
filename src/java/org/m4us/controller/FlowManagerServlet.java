@@ -5,11 +5,9 @@
 package org.m4us.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +48,9 @@ public class FlowManagerServlet extends HttpServlet {
 //        } finally {            
 //            out.close();
 //        }
+        
+        //System.out.println("current working dir------->"+ (new java.io.File(".")).getAbsolutePath());
+        
         if(FlowContext.getServletContext()==null)
             FlowContext.setServletContext(getServletContext());
         Enumeration<String> requestParams = request.getParameterNames();
@@ -77,7 +78,7 @@ public class FlowManagerServlet extends HttpServlet {
         }
         
         if(flowSuccess){
-        request.setAttribute("context", flowCtx);
+        request.setAttribute("flowContext", flowCtx);
         request.getRequestDispatcher(rule.getRuleSuccessJSP()).forward(request, response);
 
         }else{

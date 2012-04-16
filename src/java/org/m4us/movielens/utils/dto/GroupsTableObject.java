@@ -10,7 +10,7 @@ package org.m4us.movielens.utils.dto;
  */
 public class GroupsTableObject implements TableObject{
     private int groupId;
-    private int userId;
+    private String groupName;
 
     public int getGroupId() {
         return groupId;
@@ -20,18 +20,17 @@ public class GroupsTableObject implements TableObject{
         this.groupId = groupId;
     }
 
-    
-    public int getUserId() {
-        return userId;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     @Override
     public String toString() {
-        return "GroupsTableObject{" + "groupId=" + groupId + ", userId=" + userId + '}';
+        return "GroupsTableObject{" + "groupId=" + groupId + ", groupName=" + groupName + '}';
     }
 
     

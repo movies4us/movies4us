@@ -37,8 +37,9 @@ public class MoviesAndGroupsPorting {
     }
     
     public static void main(String[] args) {
-        moviesPort();
-        groupsPort();
+        //moviesPort();
+        //groupsPort();
+        test();
     }
 
     private static void moviesPort() {
@@ -91,5 +92,9 @@ public class MoviesAndGroupsPorting {
         } catch (SQLException ex) {
             Logger.getLogger(MoviesAndGroupsPorting.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private static void test() {
+        System.out.println("current working dir------->"+ (new java.io.File(".")).getAbsolutePath());
     }
 }

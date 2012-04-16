@@ -30,4 +30,8 @@ public class FlowContext {
     public Object get(Object key){
         return contextCache.get(key);
     }
+    
+    public void clear(){
+        contextCache.clear();
+    }
 }
