@@ -36,14 +36,14 @@ public class RecommendMovies
         
         System.out.println("Getting group movies.....");
         GroupMovies gm=new GroupMovies(groupID);
-        groupMovies=gm.getGroupMovies();
+        groupMovies=gm.getGroupMovies();        
                 
         System.out.println("Creating group profile......");
         GroupProfile profile=new GroupProfile(users);
         groupProfile=profile.getGroupProfile();         
       
         System.out.println("Creating champion list....");
-        ChampionList cl=new ChampionList(groupID);
+        ChampionList cl=new ChampionList(groupID, groupMovies);
         championList=cl.getChampionList();
         
         System.out.println("Getting cosine scores....");
