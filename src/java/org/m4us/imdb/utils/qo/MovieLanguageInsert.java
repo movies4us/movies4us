@@ -3,26 +3,14 @@
  * and open the template in the editor.
  */
 package org.m4us.imdb.utils.qo;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.m4us.imdb.utils.IMDBUtils;
 import org.m4us.movielens.utils.ConnectionInfo;
 import org.m4us.movielens.utils.ConnectionManager;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.StringTokenizer;
 import org.m4us.imdb.utils.dto.GetIMDBInformation;
 import org.m4us.imdb.utils.dto.MovieInformation;
 
