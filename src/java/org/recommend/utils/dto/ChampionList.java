@@ -19,14 +19,13 @@ public class ChampionList
     int groupID;
     static int CHAMPION_SIZE=250;
     
-    public ChampionList(int id)
+    public ChampionList(int id, ArrayList movies)
     {
         groupID=id;
         TopRankedMovies trm=new TopRankedMovies();        
         topRanked=trm.getTopRankedMovies();
         
-        SeenMovies seen=new SeenMovies(groupID);
-        seenMovies=seen.getSeenMovies();
+        seenMovies=movies;        
         populateChampionList();
     }        
     

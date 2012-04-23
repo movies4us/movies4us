@@ -27,18 +27,18 @@ public class UserProfile
     public UserProfile()
     {
         conn = (Connection) ConnectionManager.getConnection();
-        profile=new double[24];
+        profile=new double[GENRE_COUNT];
     }
     
     public double[] getUserProfile(int id)
     {
         initializeProfile();
         
-        StringBuilder queryString = new StringBuilder("SELECT GENRE FROM MOVIES_GENRE WHERE MOVIE_ID IN (SELECT MOVIE_ID FROM RATINGS WHERE USER_ID = "+id+")");
+        StringBuilder queryString = new StringBuilder("SELECT * FROM USER_PROFILE WHERE USER_ID = "+id);
         PreparedStatement st = null;
         ResultSet rs = null;
         GenreIndex gi=new GenreIndex();
-        int index;
+        int index=2;
         
         try 
         {
@@ -47,16 +47,14 @@ public class UserProfile
                         
             while(rs.next())
             {
-                String genre=rs.getString(1);
-                index=gi.getIndex(genre);
-                if(index>=0)
-                    profile[index]++;
-            }            
+                for(int i=0;i<GENRE_COUNT;i++)
+                   profile[i]=rs.getInt(index++); 
+            }                        
         }catch (SQLException ex) 
         {
             System.out.println("Cannot generate user profile");            
             Logger.getLogger(MovieRatingsDistinct.class.getName()).log(Level.SEVERE, null, ex);            
-        }                
+        }        
         normalize();
         return profile;
     }
@@ -77,7 +75,7 @@ public class UserProfile
     
     public void initializeProfile()
     {
-        for(int i=0;i<24;i++)
+        for(int i=0;i<GENRE_COUNT;i++)
             profile[i]=0;
     }
 }

@@ -36,14 +36,14 @@ public class RecommendMovies
         
         System.out.println("Getting group movies.....");
         GroupMovies gm=new GroupMovies(groupID);
-        groupMovies=gm.getGroupMovies();
+        groupMovies=gm.getGroupMovies();        
                 
         System.out.println("Creating group profile......");
         GroupProfile profile=new GroupProfile(users);
-        groupProfile=profile.getGroupProfile();        
-        
+        groupProfile=profile.getGroupProfile();         
+      
         System.out.println("Creating champion list....");
-        ChampionList cl=new ChampionList(groupID);
+        ChampionList cl=new ChampionList(groupID, groupMovies);
         championList=cl.getChampionList();
         
         System.out.println("Getting cosine scores....");
@@ -57,7 +57,7 @@ public class RecommendMovies
         groupLanguageSet=grFeatures.getGroupLanguageSet();
         JaccardScores jScores=new JaccardScores(championList, groupActorSet, groupDirectorSet, groupLanguageSet);
         jaccardScores=jScores.getJaccardScores();        
-        
+                
         System.out.println("Calculating total scores....");
         totalScores=new double[championList.size()];
         movieDetails=new ArrayList();
@@ -67,7 +67,7 @@ public class RecommendMovies
         }
                 
         sortTotalScore();        
-        printTop(RESULT_SIZE);
+        printTop(RESULT_SIZE);                        
     }
     
     public void printTop(int n)
@@ -77,6 +77,7 @@ public class RecommendMovies
         for(int i=0;i<n;i++)
         {
             System.out.println(championList.get(i)+"\t"+mn.getMovieName((Integer)championList.get(i))+"\t\t"+totalScores[i]+"\t"+cosineScores[i]+"\t"+jaccardScores[i]);
+            //System.out.println(championList.get(i)+"\t"+mn.getMovieName((Integer)championList.get(i))+jaccardScores[i]);
         }
     }        
         
@@ -86,7 +87,7 @@ public class RecommendMovies
         double score;
         for(int i=0;i<championList.size();i++)
             for(int j=0;j<championList.size()-i-1;j++)            
-                if(totalScores[j]<totalScores[j+1])
+                if(totalScores[j]<totalScores[j+1])    
                 {
                     score=totalScores[j];
                     totalScores[j]=totalScores[j+1];
@@ -106,48 +107,6 @@ public class RecommendMovies
                     championList.remove(j+1);
                     championList.add(j+1,id);
                 }            
-    }
-    
-    private class MovieDetails
-    {
-        int movieID;
-        double cosScore, jaccScore, totScore;
-        String name;
-        
-        public MovieDetails(int id, double cScore, double jScore, double tScore)                
-        {
-            movieID=id;
-            cosScore=cScore;
-            jaccScore=jScore;
-            totScore=tScore;
-            MovieName mn=new MovieName();
-            name=mn.getMovieName(movieID);
-        }
-        
-        public int getID()
-        {
-            return movieID;
-        }
-        
-        public double getCosineScore()
-        {
-            return cosScore;
-        }
-        
-        public double getJaccardScore()
-        {
-            return jaccScore;
-        }
-        
-        public double getTotalScore()
-        {
-            return totScore;
-        }
-        
-        public String getName()
-        {
-            return name;
-        }
     }
     
     public static void main(String ags[])
