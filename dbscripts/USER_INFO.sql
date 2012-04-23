@@ -8,3 +8,5 @@ CREATE  TABLE `movies4us`.`USER_INFO` (
 COMMENT = 'Stores the information of all users registered in the system';
 
 ALTER TABLE `movies4us`.`USER_INFO` CHANGE COLUMN `JOIN_DATE` `JOIN_DATE` TIMESTAMP NULL DEFAULT NULL COMMENT 'date time when the user registers'  ;
+
+ALTER TABLE `movies4us`.`USER_INFO` CHANGE COLUMN `USER_ID` `USER_ID` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'User Id is the primary key'  ;

@@ -4,10 +4,7 @@
  */
 package org.m4us.movielens.utils.qo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.m4us.movielens.utils.ConnectionManager;
@@ -22,7 +19,36 @@ public class UserInfoQueryObject implements CRUDQueryObjects{
 
     @Override
     public void create(TableObject object) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        UserInfoTableObject userInfo = (UserInfoTableObject)object;
+        Connection conn = ConnectionManager.getConnection();
+        StringBuilder queryString = new StringBuilder("INSERT INTO USER_INFO (USERNAME,PASSWORD,JOIN_DATE)");
+        queryString.append(" VALUES ( ? , ? , ?)");
+        PreparedStatement ps=null;
+        try{
+        conn.setAutoCommit(false);
+        ps = conn.prepareStatement(queryString.toString(),Statement.RETURN_GENERATED_KEYS);
+        //ps.setInt(1, userInfo.getUserId());
+        ps.setString(1, userInfo.getUsername());
+        ps.setString(2, userInfo.getPassword());
+        ps.setTimestamp(3, userInfo.getJoinDate());
+        ps.executeUpdate();
+        ResultSet rs = ps.getGeneratedKeys();
+        if(rs.next()){
+        userInfo.setUserId(rs.getInt(1));
+        }else
+            throw new SQLException("autoincr resultset not orking");
+        conn.commit();
+        rs.close();
+        }catch(SQLException ex){
+            Logger.getLogger(UserInfoQueryObject.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try {
+                ps.close();
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserInfoBulkInsert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override
