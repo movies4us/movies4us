@@ -61,7 +61,13 @@ public class FlowManagerServlet extends HttpServlet {
             if(param.startsWith("action")){
                  actionName = param.substring(param.indexOf(".")+1);
                 flowCtx.put("currentAction", actionName);
-            }else{
+            }
+            /*handle hyperlinks*/
+            else if(param.contains("linkAction")){
+                actionName = request.getParameter(param).
+                        substring(request.getParameter(param).indexOf(".")+1);
+            }
+            else{
                 flowCtx.put(param, request.getParameter(param));
             }
         }

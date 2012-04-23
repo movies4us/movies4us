@@ -22,7 +22,11 @@
             List<DataTransferObject> groupList = (List<DataTransferObject>)flowCtx.get("UserGroupsList");
             for(DataTransferObject object : groupList){
                 GroupsTableObject groupObj = (GroupsTableObject)object;%>
-                <h2><%=groupObj.getGroupName()%></h2><br/>
+                <h2>
+                    <a href="FlowManagerServlet?linkAction=action.group.recommendation
+                       &groupId=<%=groupObj.getGroupName()%>" >
+                        <%=groupObj.getGroupName()%></a>
+                </h2><br/>
         <%}%>
         
     </body>
