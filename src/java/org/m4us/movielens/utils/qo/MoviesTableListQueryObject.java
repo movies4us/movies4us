@@ -49,5 +49,71 @@ public class MoviesTableListQueryObject implements ListQueryObject{
         }
         return moviesList;
     }
+    public List<DataTransferObject> retrieveMovieDetailsList(List movieIdList, Connection conn) {
+        StringBuilder queryString = new StringBuilder("SELECT * FROM MOVIES WHERE MOVIE_ID IN (");
+        for(int i=0;i<movieIdList.size();i++){
+            queryString.append(" ").append((Integer)movieIdList.get(i)).append(",");
+        }
+        queryString.deleteCharAt(queryString.length()-1).append(")");
+        List<DataTransferObject> movieDetailsList = new ArrayList<DataTransferObject>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(queryString.toString());
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                MoviesTableObject movieObj = new MoviesTableObject();
+                movieObj.setMovieId(rs.getInt(1));
+                movieObj.setMovieName(rs.getString(2));
+                movieObj.setReleaseYear(rs.getString(3));
+                movieObj.setLanguage(rs.getString(4));
+                movieObj.setRating(rs.getInt(5));
+                movieObj.setRank(rs.getInt(6));
+                movieObj.setRuntime(rs.getInt(7));
+                movieObj.setMpaa(rs.getString(8));
+                movieObj.setImdbId(rs.getString(9));
+                movieDetailsList.add(movieObj);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MoviesTableListQueryObject.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(MoviesTableListQueryObject.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return movieDetailsList;
+    }
     
+    public List<DataTransferObject> similarMoviesList(String searchString, Connection conn) {
+        StringBuilder queryString = new StringBuilder("SELECT * FROM MOVIES WHERE MOVIE_NAME LIKE");
+        queryString.append(" '%").append(searchString).append("%' ");
+        List<DataTransferObject> movieSearchList = new ArrayList<DataTransferObject>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(queryString.toString());
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                MoviesTableObject movieObj = new MoviesTableObject();
+                movieObj.setMovieId(rs.getInt(1));
+                movieObj.setMovieName(rs.getString(2));
+                movieObj.setReleaseYear(rs.getString(3));
+                movieObj.setLanguage(rs.getString(4));
+                movieObj.setRating(rs.getInt(5));
+                movieObj.setRank(rs.getInt(6));
+                movieObj.setRuntime(rs.getInt(7));
+                movieObj.setMpaa(rs.getString(8));
+                movieObj.setImdbId(rs.getString(9));
+                movieSearchList.add(movieObj);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MoviesTableListQueryObject.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(MoviesTableListQueryObject.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return movieSearchList;
+    }
 }
