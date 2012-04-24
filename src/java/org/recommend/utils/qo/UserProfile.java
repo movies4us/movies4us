@@ -49,7 +49,7 @@ public class UserProfile
             {
                 for(int i=0;i<GENRE_COUNT;i++)
                    profile[i]=rs.getInt(index++); 
-            }                        
+            }
         }catch (SQLException ex) 
         {
             System.out.println("Cannot generate user profile");            

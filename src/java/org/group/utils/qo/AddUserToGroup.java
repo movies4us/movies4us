@@ -35,6 +35,8 @@ public class AddUserToGroup
         {
             st = conn.prepareStatement(queryString.toString());
             st.executeUpdate();
+            
+            conn.close();
         }catch (SQLException ex) 
         {
             System.out.println("Cannot Insert");

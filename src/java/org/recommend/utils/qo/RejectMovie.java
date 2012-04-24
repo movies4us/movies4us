@@ -18,24 +18,23 @@ import org.m4us.movielens.utils.ConnectionManager;
  *
  * @author Aveek
  */
-public class GetUserList 
+public class RejectMovie 
 {
-    int groupID;
-    ArrayList users;
+    int groupID, movieID;
+    ArrayList recommendedList;    
     Connection conn;
-    
-    public GetUserList(int id)
-    {
-        groupID=id;
-        users=new ArrayList();
+
+    public RejectMovie(int groupID, int movieID) {
+        this.groupID = groupID;
+        this.movieID = movieID;
+        recommendedList=new ArrayList();
         conn = (Connection) ConnectionManager.getConnection();
-        
-        getUsers();
     }
     
-    public void getUsers()
+    public void updateRejects()
     {
-        StringBuilder queryString = new StringBuilder("SELECT USER_ID FROM FRIENDS WHERE GROUP_ID="+groupID);
+        int count=0;
+        StringBuilder queryString = new StringBuilder("SELECT COUNT FROM REJECTED_MOVIES WHERE MOVIE_ID ="+movieID+" AND GROUP_ID= "+groupID);
         PreparedStatement st = null;
         ResultSet rs = null;  
         
@@ -46,18 +45,24 @@ public class GetUserList
                         
             while(rs.next())
             {
-                users.add(rs.getInt(1));
+                count=rs.getInt(1);
             }
+            if(count==0)
+                queryString = new StringBuilder("INSERT INTO REJECTED_MOVIES VALUES("+groupID+","+movieID+",1)");
+            else
+                queryString = new StringBuilder("UPDATE REJECTED_MOVIES SET COUNT="+(count+1)+" WHERE MOVIE_ID ="+movieID+" AND GROUP_ID= "+groupID);
+            
+            st = conn.prepareStatement(queryString.toString());
+            st.executeUpdate();
+            
             conn.close();
         }catch (SQLException ex) 
         {
-            System.out.println("Cannot get users in group");            
+            System.out.println("Cannot add rejected movies");   
+            System.out.println(queryString);
             Logger.getLogger(MovieRatingsDistinct.class.getName()).log(Level.SEVERE, null, ex);            
         }
     }
     
-    public ArrayList getUsersList()
-    {
-        return users;
-    }
+    
 }

@@ -45,7 +45,8 @@ public class GroupMovies
             while(rs.next())
             {
                 groupMovies.add(rs.getInt(1));
-            }            
+            }
+            conn.close();
         }catch (SQLException ex) 
         {
             System.out.println("Cannot get movies in group");            
