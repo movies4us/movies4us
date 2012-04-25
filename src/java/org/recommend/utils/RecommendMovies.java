@@ -5,6 +5,7 @@
 package org.recommend.utils;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.recommend.utils.dto.ChampionList;
 import org.recommend.utils.dto.GroupFeatures;
 import org.recommend.utils.dto.GroupProfile;
@@ -71,7 +72,7 @@ public class RecommendMovies
         }
                 
         sortTotalScore();        
-        printTop(RESULT_SIZE);                        
+        //printTop(RESULT_SIZE);                        
     }
     
     public void printTop(int n)
@@ -116,5 +117,9 @@ public class RecommendMovies
     public static void main(String ags[])
     {
         new RecommendMovies(54);
+    }
+    
+    public static List getGroupRecommendations(Integer groupId){
+        return new RecommendMovies(groupId).championList;
     }
 }

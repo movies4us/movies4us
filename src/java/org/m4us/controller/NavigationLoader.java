@@ -19,10 +19,14 @@ import java.util.logging.Logger;
  */
 public class NavigationLoader {
     public static ResourceBundle navigationRules = null;
-    
+    private static NavigationRule previousRule;
     public static void loadNavigationRules(){
         try {
-            navigationRules = new PropertyResourceBundle(new FileReader("C:/Users/Aveek/Documents/NetBeansProjects/movies4us/navigation.properties"));
+
+            if(System.getProperty("os.name").contains("Windows"))
+                navigationRules = new PropertyResourceBundle(new FileReader("C:/Users/Aveek/Documents/NetBeansProjects/movies4us/navigation.properties"));
+            else
+                navigationRules = new PropertyResourceBundle(new FileReader("/home/arka/NetBeansProjects/movies4us/navigation.properties"));
         } catch (IOException ex) {
             Logger.getLogger(NavigationLoader.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -33,8 +37,10 @@ public class NavigationLoader {
             loadNavigationRules();
         String[] handlers = navigationRules.getString(ruleName).split(",");
         String successJSP = navigationRules.getString(ruleName+".successJSP");
+        successJSP = (successJSP.equalsIgnoreCase("CURRENT"))?previousRule.ruleSuccessJSP:successJSP;
         String errorJSP = navigationRules.getString(ruleName+".errorJSP");
         List<String> handlerList = Arrays.asList(handlers);
-        return new NavigationRule(ruleName, successJSP, errorJSP, handlerList);
+        previousRule =  new NavigationRule(ruleName, successJSP, errorJSP, handlerList);
+        return previousRule;
     }
 }

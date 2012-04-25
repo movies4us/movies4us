@@ -34,4 +34,8 @@ public class FlowContext {
     public void clear(){
         contextCache.clear();
     }
+    
+    public void remove(Object key){
+        contextCache.remove(key);
+    }
 }

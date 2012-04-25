@@ -53,15 +53,23 @@ public class FlowManagerServlet extends HttpServlet {
         
         if(FlowContext.getServletContext()==null)
             FlowContext.setServletContext(getServletContext());
+        FlowContext flowCtx=null;
         Enumeration<String> requestParams = request.getParameterNames();
-        FlowContext flowCtx = new FlowContext();
+        if((flowCtx = (FlowContext)request.getSession().getAttribute("flowCtx"))==null)
+             flowCtx = new FlowContext();
         String actionName = "";
         while(requestParams.hasMoreElements()){
             String param = requestParams.nextElement();
             if(param.startsWith("action")){
-                 actionName = param.substring(param.indexOf(".")+1);
+                 actionName = param.substring(param.indexOf(".")+1).trim();
                 flowCtx.put("currentAction", actionName);
-            }else{
+            }
+            /*handle hyperlinks*/
+            else if(param.contains("linkAction")){
+                actionName = request.getParameter(param).
+                        substring(request.getParameter(param).indexOf(".")+1).trim();
+            }
+            else{
                 flowCtx.put(param, request.getParameter(param));
             }
         }
@@ -76,11 +84,13 @@ public class FlowManagerServlet extends HttpServlet {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(FlowManagerServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         if(flowSuccess){
         request.setAttribute("flowContext", flowCtx);
+        /*if(rule.ruleSuccessJSP.equalsIgnoreCase("CURRENT")){
+            request.getRequestDispatcher(request.getRequestURI()).forward(request, response);
+        }else{*/
         request.getRequestDispatcher(rule.getRuleSuccessJSP()).forward(request, response);
-
+        //}
         }else{
            request.getRequestDispatcher(rule.getRuleErrorJSP()).forward(request, response); 
         }

@@ -95,6 +95,8 @@ public class MoviesAndGroupsPorting {
     }
 
     private static void test() {
-        System.out.println("current working dir------->"+ System.getProperty("os.name"));
+        StringBuilder qryStr = new StringBuilder("this projeect is good");
+        qryStr.deleteCharAt(qryStr.length()-1);
+        System.out.println("result-----"+qryStr.toString());
     }
 }
