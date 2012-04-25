@@ -12,6 +12,7 @@ import org.recommend.utils.dto.GroupProfile;
 import org.recommend.utils.qo.GetUserList;
 import org.recommend.utils.qo.GroupMovies;
 import org.recommend.utils.qo.MovieName;
+import org.recommend.utils.qo.RejectedCount;
 
 /**
  *
@@ -64,7 +65,10 @@ public class RecommendMovies
         movieDetails=new ArrayList();
         for(int i=0;i<championList.size();i++)
         {
-            totalScores[i]=cosineScores[i]+jaccardScores[i];            
+            totalScores[i]=cosineScores[i]+jaccardScores[i];
+            RejectedCount rc=new RejectedCount(groupID, (Integer)championList.get(i));
+            //System.out.println(rc.getRejectedCount());
+            totalScores[i]=totalScores[i]*Math.pow(.99,rc.getRejectedCount());
         }
                 
         sortTotalScore();        
@@ -112,7 +116,7 @@ public class RecommendMovies
     
     public static void main(String ags[])
     {
-        new RecommendMovies(1);
+        new RecommendMovies(54);
     }
     
     public static List getGroupRecommendations(Integer groupId){
