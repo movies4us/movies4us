@@ -45,8 +45,15 @@
         <%
         }}
         %>
+        
         <input type ="submit" name="action.user.ratings.submit" value="Submit Ratings">
         </form>
+        <h4>Create a new Group</h4>
+        <form name ="createGroupForm" method="POST" action="FlowManagerServlet">
+        <input type="text" name ="groupName" maxlength="20">        
+        <input type="submit" name ="action.create.group.submit" value="Create Group">
+        </form>
+        
         <h2>Groups List</h2>
         <%
             

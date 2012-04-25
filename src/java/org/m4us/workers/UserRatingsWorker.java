@@ -6,6 +6,7 @@ package org.m4us.workers;
 
 import java.util.List;
 import org.m4us.movielens.utils.ConnectionManager;
+import org.m4us.movielens.utils.RatingsBulkUpdate;
 import org.m4us.movielens.utils.dto.DataTransferObject;
 import org.m4us.movielens.utils.qo.RatingsBulkInsert;
 
@@ -16,6 +17,11 @@ import org.m4us.movielens.utils.qo.RatingsBulkInsert;
 public class UserRatingsWorker {
     public void insertUserRatings(List<DataTransferObject> userRatings){
         new RatingsBulkInsert().bulkInsert(userRatings, ConnectionManager.getConnection());
+    }
+    
+    public void updateUserRatings(List<DataTransferObject> userRatings)
+    {
+        new RatingsBulkUpdate().bulkUpdate(userRatings, ConnectionManager.getConnection());
     }
     
     public List<DataTransferObject> getRatedMovies(String userId){
