@@ -14,7 +14,7 @@ import org.m4us.movielens.utils.qo.MoviesTableListQueryObject;
  * @author arka
  */
 public class MovieSearchWorker {
-    public List<DataTransferObject> getSimilarMoviesList(String searchString){
-        return new MoviesTableListQueryObject().similarMoviesList(searchString, ConnectionManager.getConnection());
+    public List<DataTransferObject> getSimilarMoviesList(String searchString,Integer userId){
+        return new MoviesTableListQueryObject().similarMoviesList(searchString, userId, ConnectionManager.getConnection());
     }
 }

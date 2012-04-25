@@ -4,6 +4,7 @@
     Author     : arka
 --%>
 
+<%@page import="org.m4us.movielens.utils.dto.MoviesRatingsComposite"%>
 <%@page import="org.m4us.movielens.utils.dto.MoviesTableObject"%>
 <%@page import="org.m4us.movielens.utils.dto.GroupsTableObject"%>
 <%@page import="org.m4us.movielens.utils.dto.DataTransferObject"%>
@@ -35,11 +36,11 @@
         
         List<DataTransferObject> similarMoviesList = (List<DataTransferObject>)flowCtx.get("similarMoviesList");
         for(DataTransferObject object : similarMoviesList){
-                MoviesTableObject movieObj = (MoviesTableObject)object;
+                MoviesRatingsComposite movieObj = (MoviesRatingsComposite)object;
         %>
-        <h4><%=movieObj.getMovieName()%>,
-            <%=movieObj.getReleaseYear()%>
-            <input type="text" maxlength="4" name="movieId<%=movieObj.getMovieId()%>">
+        <h4><%=movieObj.getMovieObj().getMovieName()%>,
+            <%=movieObj.getMovieObj().getReleaseYear()%>
+            <input type="text" maxlength="4" name="movieId<%=movieObj.getRatingsObj().getMovieId()%>" value="<%=movieObj.getRatingsObj().getRating()%>">
         </h4>
         <%
         }}

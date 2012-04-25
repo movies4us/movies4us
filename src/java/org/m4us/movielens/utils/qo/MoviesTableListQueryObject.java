@@ -9,11 +9,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.m4us.movielens.utils.dto.DataTransferObject;
+import org.m4us.movielens.utils.dto.MoviesRatingsComposite;
 import org.m4us.movielens.utils.dto.MoviesTableObject;
+import org.m4us.movielens.utils.dto.RatingsTableObject;
 
 /**
  *
@@ -84,25 +87,44 @@ public class MoviesTableListQueryObject implements ListQueryObject{
         return movieDetailsList;
     }
     
-    public List<DataTransferObject> similarMoviesList(String searchString, Connection conn) {
-        StringBuilder queryString = new StringBuilder("SELECT * FROM MOVIES WHERE MOVIE_NAME LIKE");
-        queryString.append(" '%").append(searchString).append("%' ");
+    public List<DataTransferObject> similarMoviesList(String searchString, Integer userId, Connection conn) {
+        StringBuilder queryString = new StringBuilder();
+        queryString.append("SELECT RATINGS.MOVIE_ID,MOVIES.MOVIE_NAME,RELEASE_YEAR,RATINGS.RATINGS ");
+        queryString.append(" FROM RATINGS,MOVIES ");
+        queryString.append("WHERE USER_ID = ? and RATINGS.MOVIE_ID = MOVIES.MOVIE_ID");
+        queryString.append(" AND MOVIE_NAME LIKE '%").append(searchString).append("%' ");
+        queryString.append(" UNION ");
+        queryString.append(" SELECT MOVIES.MOVIE_ID,MOVIES.MOVIE_NAME,RELEASE_YEAR,0 FROM MOVIES ");
+        queryString.append(" WHERE MOVIE_NAME LIKE '%").append(searchString).append("%' ");
         List<DataTransferObject> movieSearchList = new ArrayList<DataTransferObject>();
+        HashMap<Integer,Boolean> duplicate = new HashMap<Integer,Boolean>();
         try {
             PreparedStatement ps = conn.prepareStatement(queryString.toString());
+            ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 MoviesTableObject movieObj = new MoviesTableObject();
+                RatingsTableObject ratingsObj = new RatingsTableObject();
+                MoviesRatingsComposite composite = new MoviesRatingsComposite();
+                ratingsObj.setUserId(userId);
                 movieObj.setMovieId(rs.getInt(1));
+                if(duplicate.containsKey(movieObj.getMovieId()))
+                    continue;
+                else
+                    duplicate.put(movieObj.getMovieId(), Boolean.TRUE);
+                ratingsObj.setMovieId(rs.getInt(1));
                 movieObj.setMovieName(rs.getString(2));
                 movieObj.setReleaseYear(rs.getString(3));
-                movieObj.setLanguage(rs.getString(4));
-                movieObj.setRating(rs.getInt(5));
-                movieObj.setRank(rs.getInt(6));
-                movieObj.setRuntime(rs.getInt(7));
-                movieObj.setMpaa(rs.getString(8));
-                movieObj.setImdbId(rs.getString(9));
-                movieSearchList.add(movieObj);
+//                movieObj.setLanguage(rs.getString(4));
+//                movieObj.setRating(rs.getInt(5));
+//                movieObj.setRank(rs.getInt(6));
+//                movieObj.setRuntime(rs.getInt(7));
+//                movieObj.setMpaa(rs.getString(8));
+//                movieObj.setImdbId(rs.getString(9));
+                ratingsObj.setRating(rs.getFloat(4));
+                composite.setMovieObj(movieObj);
+                composite.setRatingsObj(ratingsObj);
+                movieSearchList.add(composite);
             }
         } catch (SQLException ex) {
             Logger.getLogger(MoviesTableListQueryObject.class.getName()).log(Level.SEVERE, null, ex);
