@@ -22,7 +22,7 @@ public class NavigationLoader {
     
     public static void loadNavigationRules(){
         try {
-            navigationRules = new PropertyResourceBundle(new FileReader("/home/arka/NetBeansProjects/movies4us/navigation.properties"));
+            navigationRules = new PropertyResourceBundle(new FileReader("C:/Users/Aveek/Documents/NetBeansProjects/movies4us/navigation.properties"));
         } catch (IOException ex) {
             Logger.getLogger(NavigationLoader.class.getName()).log(Level.SEVERE, null, ex);
         }

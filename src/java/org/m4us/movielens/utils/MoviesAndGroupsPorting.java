@@ -95,6 +95,6 @@ public class MoviesAndGroupsPorting {
     }
 
     private static void test() {
-        System.out.println("current working dir------->"+ (new java.io.File(".")).getAbsolutePath());
+        System.out.println("current working dir------->"+ System.getProperty("os.name"));
     }
 }
