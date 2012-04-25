@@ -32,7 +32,7 @@ public class UserRatingsHandler implements IHandler{
             MoviesRatingsComposite movieObj = (MoviesRatingsComposite)object;
             MoviesTableObject mtObject = movieObj.getMovieObj();
             RatingsTableObject rtObject = movieObj.getRatingsObj();
-            float newRating=Float.parseFloat((String)flowCtx.get("movieId")+mtObject.getMovieId());
+            float newRating=Float.parseFloat((String)flowCtx.get("movieId"+mtObject.getMovieId()));
            
             if(newRating>0)
             {

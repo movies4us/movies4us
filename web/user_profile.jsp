@@ -31,7 +31,7 @@
         <%if(flowCtx.get("similarMoviesList")!=null){
         %>
         <h2>Rate Movies</h2>
-        <form name="ratingForm" action="FlowControlServlet">
+        <form name="ratingForm" method="POST" action="FlowControlServlet">
         <%
         
         List<DataTransferObject> similarMoviesList = (List<DataTransferObject>)flowCtx.get("similarMoviesList");
