@@ -49,10 +49,12 @@ td{
 
 .leftcol{
     text-align: center;
+    vertical-align: top;
 }
 
 .rightcol{
     text-align: center;
+    vertical-align: top;
 }
 
 .groupTable{
@@ -68,7 +70,7 @@ td{
     border-left-color: silver;
     border-bottom-color: silver;
     border-top-color: silver;
-    
+    height: 100%;
     
 }
 

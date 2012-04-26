@@ -67,10 +67,10 @@
                 </td><td class="rightpadtablesmall"></td></tr></table>
                 </td>
                 <td class="rightcol">
-                    <table><tr><td class="leftpadtable"></td><td>
+                    <table style="height: 100%"><tr><td class="leftpadtable"></td><td style="vertical-align: top">
                                 <table class="groupTable"><tr>
 
-                                        <td>
+                                        <td style="vertical-align: top">
                                             <h2>Groups List</h2></td></tr>
                                             <%
 
@@ -83,8 +83,14 @@
                                                 <%=groupObj.getGroupName()%></a>
                                     </tr></td>
                                     <%}%>
+                                
                     </table>
-                </td><td class="rightpadtable"></td></tr></table>
+                </td><td class="rightpadtable"></td></tr>
+                    <tr>
+
+                        <td style="vertical-align: bottom" colspan="3">&nbsp;
+                                            </td></tr>
+                    </table>
     </td></tr>
 <tr><td></td><td class="rightcol">
 <table><tr><td class="leftpadtable"></td><td>
