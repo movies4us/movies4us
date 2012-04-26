@@ -31,7 +31,7 @@
         <%if(flowCtx.get("similarMoviesList")!=null){
         %>
         <h2>Rate Movies</h2>
-        <form name="ratingForm" method="POST" action="FlowControlServlet">
+        <form name="ratingForm" method="POST" action="FlowManagerServlet">
         <%
         
         List<DataTransferObject> similarMoviesList = (List<DataTransferObject>)flowCtx.get("similarMoviesList");
@@ -64,6 +64,19 @@
                     <a href="FlowManagerServlet?linkAction=action.group.recommendation
                        &groupId=<%=groupObj.getGroupId()%>" >
                         <%=groupObj.getGroupName()%></a>
+                </h4><br/>
+        <%}%>
+        
+        <h2>Available Groups List</h2>
+        <%
+            
+            List<DataTransferObject> avaibleGroupList = (List<DataTransferObject>)flowCtx.get("AvailableGroupsList");
+            for(DataTransferObject object : avaibleGroupList){
+                GroupsTableObject availableGroupObj = (GroupsTableObject)object;%>
+                <h4>
+                    <a href="FlowManagerServlet?linkAction=action.group.join
+                       &groupId=<%=availableGroupObj.getGroupId()%>" >
+                        <%=availableGroupObj.getGroupName()%></a>
                 </h4><br/>
         <%}%>
         
