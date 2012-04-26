@@ -30,5 +30,8 @@
         <%
         }
         %>
+        <form name="logoutForm" method="POST" action="FlowManagerServlet">
+            <input type ="submit" name="action.user.logout" value="Logout">
+        </form>
     </body>
 </html>
