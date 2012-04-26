@@ -19,87 +19,100 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <%FlowContext flowCtx = (FlowContext)request.getAttribute("flowContext");%>
+        <%FlowContext flowCtx = (FlowContext) request.getAttribute("flowContext");%>
         <table>
             <tr><td class="leftcol">    
-        <h1>Rate Some Movies</h1>
-        <form name ="movieSearchForm" method="POST" action="FlowManagerServlet">
-        <input type="text" name ="movieSearch" maxlength="50">
-        <%
-        session.setAttribute("flowCtx", flowCtx);
-        %>
-        <input type="submit" name ="action.movie.search" value="Search">
-        </form>
-        </td>
-        <td class="rightcol">
-        <h1>Create a new Group</h1>
-        <form name ="createGroupForm" method="POST" action="FlowManagerServlet">
-        <input type="text" name ="groupName" maxlength="20">        
-        <input type="submit" name ="action.create.group.submit" value="Create Group">
-        </form>
-        </td>
+                    <h1>Rate Some Movies</h1>
+                    <form name ="movieSearchForm" method="POST" action="FlowManagerServlet">
+                        <input type="text" name ="movieSearch" maxlength="50">
+                        <%
+                            session.setAttribute("flowCtx", flowCtx);
+                        %>
+                        <input type="submit" name ="action.movie.search" value="Search">
+                    </form>
+                </td>
+                <td class="rightcol">
+                    <h1>Create a new Group</h1>
+                    <form name ="createGroupForm" method="POST" action="FlowManagerServlet">
+                        <input type="text" name ="groupName" maxlength="20">        
+                        <input type="submit" name ="action.create.group.submit" value="Create Group">
+                    </form>
+                </td>
             <tr><td class="leftcol">
-                    <%if(flowCtx.get("similarMoviesList")!=null){
-        %>
-        <h2>Rate Movies</h2>
-        <form name="ratingForm" method="POST" action="FlowManagerServlet">
-        <%
-        
-        List<DataTransferObject> similarMoviesList = (List<DataTransferObject>)flowCtx.get("similarMoviesList");
-        for(DataTransferObject object : similarMoviesList){
-                MoviesRatingsComposite movieObj = (MoviesRatingsComposite)object;
-        %>
-        <h4><%=movieObj.getMovieObj().getMovieName()%>,
-            <%=movieObj.getMovieObj().getReleaseYear()%>
-            <input type="text" maxlength="4" name="movieId<%=movieObj.getRatingsObj().getMovieId()%>" value="<%=movieObj.getRatingsObj().getRating()%>">
-        </h4>
-        <%
-        }%>
-        <input type ="submit" name="action.user.ratings.submit" value="Submit Ratings">
-        </form>
-        <%}
-        %>
+                    <%if (flowCtx.get("similarMoviesList") != null) {
+                    %>
+                    <table><tr><td class="leftpadtablesmall"></td><td>
+                                <table class="groupTable"><tr>
+
+                                        <td>
+                    <h2>Rate Movies</h2></td></tr>
+                    <form name="ratingForm" method="POST" action="FlowManagerServlet">
+                        <%
+
+                            List<DataTransferObject> similarMoviesList = (List<DataTransferObject>) flowCtx.get("similarMoviesList");
+                            for (DataTransferObject object : similarMoviesList) {
+                                MoviesRatingsComposite movieObj = (MoviesRatingsComposite) object;
+                        %>
+                        <tr><td align="center" width="80%"><%=movieObj.getMovieObj().getMovieName()%>,
+                            <%=movieObj.getMovieObj().getReleaseYear()%>
+                            </td><td align="left"><input type="text" size="4" maxlength="4" name="movieId<%=movieObj.getRatingsObj().getMovieId()%>" value="<%=movieObj.getRatingsObj().getRating()%>">
+                            </td></tr></td>
+                        <%
+            }%>
+                        <tr><td><input type ="submit" name="action.user.ratings.submit" value="Submit Ratings"></tr></td>
+                    </form>
+                    <%}
+                    %>
+                                    </table>
+                </td><td class="rightpadtablesmall"></td></tr></table>
                 </td>
                 <td class="rightcol">
                     <table><tr><td class="leftpadtable"></td><td>
-                    <table class="groupTable"><tr>
+                                <table class="groupTable"><tr>
 
-                            <td>
-                                <h2>Groups List</h2></td></tr>
+                                        <td>
+                                            <h2>Groups List</h2></td></tr>
+                                            <%
+
+                                                List<DataTransferObject> groupList = (List<DataTransferObject>) flowCtx.get("UserGroupsList");
+                                                for (DataTransferObject object : groupList) {
+                                                    GroupsTableObject groupObj = (GroupsTableObject) object;%>
+                                    <tr><td>
+                                            <a href="FlowManagerServlet?linkAction=action.group.recommendation
+                                               &groupId=<%=groupObj.getGroupId()%>" >
+                                                <%=groupObj.getGroupName()%></a>
+                                    </tr></td>
+                                    <%}%>
+                    </table>
+                </td><td class="rightpadtable"></td></tr></table>
+    </td></tr>
+<tr><td></td><td class="rightcol">
+<table><tr><td class="leftpadtable"></td><td>
+                                <table class="groupTable"><tr>
+
+                                        <td>
+        <h2>Available Groups List</h2></td></tr>
+
         <%
-            
-            List<DataTransferObject> groupList = (List<DataTransferObject>)flowCtx.get("UserGroupsList");
-            for(DataTransferObject object : groupList){
-                GroupsTableObject groupObj = (GroupsTableObject)object;%>
-                <h4>
-                    <a href="FlowManagerServlet?linkAction=action.group.recommendation
-                       &groupId=<%=groupObj.getGroupId()%>" >
-                        <%=groupObj.getGroupName()%></a>
-                </h4><br/>
+
+            List<DataTransferObject> avaibleGroupList = (List<DataTransferObject>) flowCtx.get("AvailableGroupsList");
+            for (DataTransferObject object : avaibleGroupList) {
+                GroupsTableObject availableGroupObj = (GroupsTableObject) object;%>
+        <tr><td>
+            <a href="FlowManagerServlet?linkAction=action.group.join
+               &groupId=<%=availableGroupObj.getGroupId()%>" >
+                <%=availableGroupObj.getGroupName()%></a>
+        </tr></td>
         <%}%>
-                </table>
-                            </td><td class="rightpadtable"></td></tr></table>
-                </td></tr>
-            <tr><td></td><td class="rightcol">
-        <h2>Available Groups List</h2>
-        
-        <%
-            
-            List<DataTransferObject> avaibleGroupList = (List<DataTransferObject>)flowCtx.get("AvailableGroupsList");
-            for(DataTransferObject object : avaibleGroupList){
-                GroupsTableObject availableGroupObj = (GroupsTableObject)object;%>
-                <h4>
-                    <a href="FlowManagerServlet?linkAction=action.group.join
-                       &groupId=<%=availableGroupObj.getGroupId()%>" >
-                        <%=availableGroupObj.getGroupName()%></a>
-                </h4><br/>
-        <%}%>
-                </td></tr>
-            <tr><td class="leftcol">
+    </td></tr>
+                                </table>
+                </td><td class="rightpadtable"></td></tr></table>
+    </td></tr>
+<tr><td class="leftcol">
         <form name="logoutForm" method="POST" action="FlowManagerServlet">
             <input type ="submit" name="action.user.logout" value="Logout">
         </form>
-                </td><td></td></tr>
-        </table>    
-    </body>
+    </td><td></td></tr>
+</table>    
+</body>
 </html>

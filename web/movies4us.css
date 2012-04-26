@@ -79,3 +79,11 @@ td{
 .rightpadtable{
     width: 25%;
 }
+
+.leftpadtablesmall{
+    width: 15%;
+}
+
+.rightpadtablesmall{
+    width: 15%;
+}
