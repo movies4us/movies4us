@@ -1,0 +1,21 @@
+/* 
+    Document   : movies4us
+    Created on : Apr 25, 2012, 11:08:12 PM
+    Author     : arka
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+body{
+    background-color: #4298c8;
+    
+    background-image: url(logo.png);
+}
+
+h1,h2,h3,h4,h5,h6{
+    color: #c8bd42
+}

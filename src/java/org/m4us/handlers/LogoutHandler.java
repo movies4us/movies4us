@@ -15,6 +15,7 @@ public class LogoutHandler implements IHandler{
     @Override
     public void handleRequest(FlowContext flowCtx) {
         flowCtx.clear();
+        flowCtx.put("SUCCESS", true);
     }
     
 }

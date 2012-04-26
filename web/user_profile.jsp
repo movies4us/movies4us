@@ -15,11 +15,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="movies4us.css" />
         <title>JSP Page</title>
     </head>
     <body>
         <%FlowContext flowCtx = (FlowContext)request.getAttribute("flowContext");%>
-        
+        <table>
+            <tr><td>    
         <h1>Rate Some Movies</h1>
         <form name ="movieSearchForm" method="POST" action="FlowManagerServlet">
         <input type="text" name ="movieSearch" maxlength="50">
@@ -28,7 +30,16 @@
         %>
         <input type="submit" name ="action.movie.search" value="Search">
         </form>
-        <%if(flowCtx.get("similarMoviesList")!=null){
+        </td>
+        <td>
+        <h4>Create a new Group</h4>
+        <form name ="createGroupForm" method="POST" action="FlowManagerServlet">
+        <input type="text" name ="groupName" maxlength="20">        
+        <input type="submit" name ="action.create.group.submit" value="Create Group">
+        </form>
+        </td>
+            <tr><td>
+                    <%if(flowCtx.get("similarMoviesList")!=null){
         %>
         <h2>Rate Movies</h2>
         <form name="ratingForm" method="POST" action="FlowManagerServlet">
@@ -43,17 +54,13 @@
             <input type="text" maxlength="4" name="movieId<%=movieObj.getRatingsObj().getMovieId()%>" value="<%=movieObj.getRatingsObj().getRating()%>">
         </h4>
         <%
-        }}
-        %>
-        
+        }%>
         <input type ="submit" name="action.user.ratings.submit" value="Submit Ratings">
         </form>
-        <h4>Create a new Group</h4>
-        <form name ="createGroupForm" method="POST" action="FlowManagerServlet">
-        <input type="text" name ="groupName" maxlength="20">        
-        <input type="submit" name ="action.create.group.submit" value="Create Group">
-        </form>
-        
+        <%}
+        %>
+                </td>
+                <td>
         <h2>Groups List</h2>
         <%
             
@@ -66,7 +73,8 @@
                         <%=groupObj.getGroupName()%></a>
                 </h4><br/>
         <%}%>
-        
+                </td></tr>
+            <tr><td></td><td>
         <h2>Available Groups List</h2>
         <%
             
@@ -79,9 +87,12 @@
                         <%=availableGroupObj.getGroupName()%></a>
                 </h4><br/>
         <%}%>
+                </td></tr>
+            <tr><td>
         <form name="logoutForm" method="POST" action="FlowManagerServlet">
             <input type ="submit" name="action.user.logout" value="Logout">
         </form>
-            
+                </td><td></td></tr>
+        </table>    
     </body>
 </html>
