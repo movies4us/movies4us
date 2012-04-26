@@ -23,7 +23,11 @@
                 (List<DataTransferObject>)flowCtx.get("RecommendationList");
         for(DataTransferObject object : recommendations){
             MoviesTableObject obj = (MoviesTableObject)object;
-        %><h4><%=obj.getMovieName()%>,<%=obj.getReleaseYear()%></h4><br/><%
+        %><h4><a href="FlowManagerServlet?linkAction=action.movie.select
+              &movieId=<%=obj.getMovieId()%>" ><%=obj.getMovieName()%></a>
+                        ,<%=obj.getReleaseYear()%>
+        </h4>        
+        <%
         }
         %>
     </body>

@@ -67,5 +67,18 @@
                 </h4><br/>
         <%}%>
         
+        <h2>Available Groups List</h2>
+        <%
+            
+            List<DataTransferObject> avaibleGroupList = (List<DataTransferObject>)flowCtx.get("AvailableGroupsList");
+            for(DataTransferObject object : avaibleGroupList){
+                GroupsTableObject availableGroupObj = (GroupsTableObject)object;%>
+                <h4>
+                    <a href="FlowManagerServlet?linkAction=action.group.join
+                       &groupId=<%=availableGroupObj.getGroupId()%>" >
+                        <%=availableGroupObj.getGroupName()%></a>
+                </h4><br/>
+        <%}%>
+        
     </body>
 </html>

@@ -31,14 +31,15 @@ public class RatingsBulkUpdate
             {
                 RatingsTableObject object = (RatingsTableObject) obj;
                 queryString=new StringBuilder("UPDATE RATINGS SET RATINGS = "+object.getRating()+" WHERE USER_ID ="+object.getUserId()+" AND MOVIE_ID="+object.getMovieId());
+                st = conn.prepareStatement(queryString.toString());
                 st.executeUpdate();
             }
-            conn.commit();
+            //conn.commit();
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
             try {
-                st.close();
+                //st.close();
                 conn.close();
             } catch (SQLException ex) {
                 Logger.getLogger(TagsBulkInsert.class.getName()).log(Level.SEVERE, null, ex);

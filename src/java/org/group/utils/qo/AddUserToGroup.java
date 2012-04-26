@@ -27,7 +27,7 @@ public class AddUserToGroup
     }
     
     public void addUser(int userID, int groupID)
-    {
+    {        
         StringBuilder queryString = new StringBuilder("INSERT INTO FRIENDS VALUES ("+userID+","+groupID+")");
         PreparedStatement st = null;                
         
@@ -40,6 +40,7 @@ public class AddUserToGroup
         }catch (SQLException ex) 
         {
             System.out.println("Cannot Insert");
+            System.out.println(queryString.toString());
             Logger.getLogger(MovieRatingsDistinct.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }

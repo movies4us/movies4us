@@ -27,8 +27,8 @@ public class UserRatingsHandler implements IHandler{
         List<DataTransferObject>insertList=new ArrayList<DataTransferObject>();        
         UserInfoTableObject userInfo = (UserInfoTableObject)flowCtx.get("userInfo");
         List<DataTransferObject> similarMoviesList = (List<DataTransferObject>)flowCtx.get("similarMoviesList");
-        for(DataTransferObject object : similarMoviesList){
-        {
+        for(DataTransferObject object : similarMoviesList)
+        {        
             MoviesRatingsComposite movieObj = (MoviesRatingsComposite)object;
             MoviesTableObject mtObject = movieObj.getMovieObj();
             RatingsTableObject rtObject = movieObj.getRatingsObj();
@@ -63,8 +63,8 @@ public class UserRatingsHandler implements IHandler{
         userRatingsWorker.insertUserRatings(insertList);
         userRatingsWorker.updateUserRatings(updateList);
         UserProfileUpdate upu=new UserProfileUpdate();
-        upu.updateProfile(insertList);
-        flowCtx.remove("similarMoviesList");
-        }
+        if(insertList.size()>0)
+            upu.updateProfile(insertList);
+        flowCtx.remove("similarMoviesList");        
     }
 }
