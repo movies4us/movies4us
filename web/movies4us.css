@@ -44,6 +44,38 @@ td{
 }
 
 .mainButton{
+    background-image: url(button.png);
+}
+
+.leftcol{
+    text-align: center;
+}
+
+.rightcol{
+    text-align: center;
+}
+
+.groupTable{
+    border-right-style: solid;
+    border-left-style: solid;
+    border-bottom-style: solid;
+    border-top-style: solid;
+    border-right-width: 1px;
+    border-left-width: 1px;
+    border-bottom-width: 1px;
+    border-top-width: 1px;
+    border-right-color: silver;
+    border-left-color: silver;
+    border-bottom-color: silver;
+    border-top-color: silver;
     
-    background-image: url(logo.png);
+    
+}
+
+.leftpadtable{
+    width: 25%;
+}
+
+.rightpadtable{
+    width: 25%;
 }

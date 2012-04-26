@@ -21,7 +21,7 @@
     <body>
         <%FlowContext flowCtx = (FlowContext)request.getAttribute("flowContext");%>
         <table>
-            <tr><td>    
+            <tr><td class="leftcol">    
         <h1>Rate Some Movies</h1>
         <form name ="movieSearchForm" method="POST" action="FlowManagerServlet">
         <input type="text" name ="movieSearch" maxlength="50">
@@ -31,14 +31,14 @@
         <input type="submit" name ="action.movie.search" value="Search">
         </form>
         </td>
-        <td>
-        <h4>Create a new Group</h4>
+        <td class="rightcol">
+        <h1>Create a new Group</h1>
         <form name ="createGroupForm" method="POST" action="FlowManagerServlet">
         <input type="text" name ="groupName" maxlength="20">        
         <input type="submit" name ="action.create.group.submit" value="Create Group">
         </form>
         </td>
-            <tr><td>
+            <tr><td class="leftcol">
                     <%if(flowCtx.get("similarMoviesList")!=null){
         %>
         <h2>Rate Movies</h2>
@@ -60,8 +60,12 @@
         <%}
         %>
                 </td>
-                <td>
-        <h2>Groups List</h2>
+                <td class="rightcol">
+                    <table><tr><td class="leftpadtable"></td><td>
+                    <table class="groupTable"><tr>
+
+                            <td>
+                                <h2>Groups List</h2></td></tr>
         <%
             
             List<DataTransferObject> groupList = (List<DataTransferObject>)flowCtx.get("UserGroupsList");
@@ -73,9 +77,12 @@
                         <%=groupObj.getGroupName()%></a>
                 </h4><br/>
         <%}%>
+                </table>
+                            </td><td class="rightpadtable"></td></tr></table>
                 </td></tr>
-            <tr><td></td><td>
+            <tr><td></td><td class="rightcol">
         <h2>Available Groups List</h2>
+        
         <%
             
             List<DataTransferObject> avaibleGroupList = (List<DataTransferObject>)flowCtx.get("AvailableGroupsList");
@@ -88,7 +95,7 @@
                 </h4><br/>
         <%}%>
                 </td></tr>
-            <tr><td>
+            <tr><td class="leftcol">
         <form name="logoutForm" method="POST" action="FlowManagerServlet">
             <input type ="submit" name="action.user.logout" value="Logout">
         </form>
