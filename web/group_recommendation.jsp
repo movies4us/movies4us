@@ -17,22 +17,26 @@
         <title>Group Recommendation</title>
     </head>
     <body>
-        <h1>Group Recommendation</h1>
+        <table class="leftcol"><tr><td></td><td>
+                    <h1>Group Recommendation</h1></td></tr>
         <%
         FlowContext flowCtx = (FlowContext)request.getAttribute("flowContext");
         List<DataTransferObject> recommendations = 
                 (List<DataTransferObject>)flowCtx.get("RecommendationList");
         for(DataTransferObject object : recommendations){
             MoviesTableObject obj = (MoviesTableObject)object;
-        %><h4><a href="FlowManagerServlet?linkAction=action.movie.select
+        %><tr><td></td><td><a href="FlowManagerServlet?linkAction=action.movie.select
               &movieId=<%=obj.getMovieId()%>" ><%=obj.getMovieName()%></a>
                         ,<%=obj.getReleaseYear()%>
-        </h4>        
+        </td></tr>        
         <%
         }
         %>
+            <tr><td></td><td>
         <form name="logoutForm" method="POST" action="FlowManagerServlet">
             <input type ="submit" name="action.user.logout" value="Logout">
         </form>
+                </td></tr>
+        </table>
     </body>
 </html>
